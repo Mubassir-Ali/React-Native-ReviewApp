@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import Home from "./screen/Home";
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
+import ReviewDetail from "./screen/ReviewDetail";
+
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+
+const homeStack = createStackNavigator();
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -11,6 +17,13 @@ export default function App() {
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
-    return <Home />;
+    return (
+      <NavigationContainer>
+        <homeStack.Navigator>
+          <homeStack.Screen name="home" component={Home} options={{title:"My Home"}} />
+          <homeStack.Screen name="details" component={ReviewDetail} options={({ route }) => ({ title: route.params.name })} />
+        </homeStack.Navigator>
+      </NavigationContainer>
+    );
   }
 }
